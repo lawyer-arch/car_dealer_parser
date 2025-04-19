@@ -11,3 +11,10 @@ dependencies = [
     "fake-useragent",
     "duckduckgo-search"
 ]
+
+[tool.uv]
+dependencies = [
+    "pytest>=6.2",
+    "coverage>=5.5",
+    "pytest-cov>=2.12"
+]
