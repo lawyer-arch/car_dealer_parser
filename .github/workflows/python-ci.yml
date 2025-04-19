@@ -22,13 +22,13 @@ jobs:
     - name: Install uv and dependencies
       run: |
         curl -Ls https://astral.sh/uv/install.sh | sh
-        uv venv                         # <--- добавлено создание виртуального окружения
-        uv pip install .               # <--- установка зависимостей из pyproject.toml
+        uv venv
+        uv pip install .
         uv pip install pytest
 
     - name: Run tests
       run: |
-        .venv/bin/pytest --junitxml=pytest-report.xml  # <--- указание на запуск из виртуального окружения
+        .venv/bin/pytest --junitxml=pytest-report.xml
 
     - name: Upload test results
       uses: actions/upload-artifact@v4
@@ -42,13 +42,19 @@ jobs:
         distribution: 'temurin'
         java-version: 17
 
-    - name: SonarCloud Analysis
-      uses: SonarSource/sonarcloud-github-action@v1
-      with:
-        args: >
-          -Dsonar.organization=lawyer-arch
-          -Dsonar.projectKey=lawyer-arch_car_dealer_parser
-          -Dsonar.projectName=lawyer-arch_car_dealer_parser
-          -Dsonar.python.coverage.reportPaths=pytest-report.xml
+    - name: Download SonarScanner
+      run: |
+        curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+        unzip sonar-scanner.zip -d $HOME
+        echo "$HOME/sonar-scanner-5.0.1.3006-linux/bin" >> $GITHUB_PATH
+
+    - name: Run SonarScanner CLI
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        sonar-scanner \
+          -Dsonar.organization=lawyer-arch \
+          -Dsonar.projectKey=lawyer-arch_car_dealer_parser \
+          -Dsonar.projectName=lawyer-arch_car_dealer_parser \
+          -Dsonar.python.coverage.reportPaths=pytest-report.xml \
+          -Dsonar.login=$SONAR_TOKEN
