@@ -1,8 +1,9 @@
 [project]
-name = "dealer-parser"
+name = "dealer_parser"
 version = "0.1.0"
-description = "Парсер сайтов автодилеров по бренду"
-authors = ["Твоё Имя <email@example.com>"]
+description = "Parser for car dealership information"
+authors = [{ name = "Pavel Anikin" }]
+readme = "README.md"
 requires-python = ">=3.10"
 
 dependencies = [
@@ -12,9 +13,9 @@ dependencies = [
     "duckduckgo-search"
 ]
 
-[tool.uv]
-dependencies = [
-    "pytest>=6.2",
-    "coverage>=5.5",
-    "pytest-cov>=2.12"
-]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["dealer_parser"]
