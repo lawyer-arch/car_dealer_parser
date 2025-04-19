@@ -1,0 +1,13 @@
+[project]
+name = "dealer-parser"
+version = "0.1.0"
+description = "Парсер сайтов автодилеров по бренду"
+authors = ["Твоё Имя <email@example.com>"]
+requires-python = ">=3.10"
+
+dependencies = [
+    "requests",
+    "beautifulsoup4",
+    "fake-useragent",
+    "duckduckgo-search"
+]
