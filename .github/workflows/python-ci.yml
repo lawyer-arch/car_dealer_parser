@@ -22,12 +22,14 @@ jobs:
     - name: Install uv and dependencies
       run: |
         curl -Ls https://astral.sh/uv/install.sh | sh
+        uv venv                         # <--- добавлено создание виртуального окружения
+        uv pip install .               # <--- установка зависимостей из pyproject.toml
         uv pip install pytest
-  
+
     - name: Run tests
       run: |
-        pytest --junitxml=pytest-report.xml
-  
+        .venv/bin/pytest --junitxml=pytest-report.xml  # <--- указание на запуск из виртуального окружения
+
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
